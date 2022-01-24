@@ -1,7 +1,7 @@
 
 
 <template>
-    <drag-box  @resize="resize">
+    <drag-box  @resize="resize" :option="props.option">
       <div ref="chart" class="chart"></div>
     </drag-box>
 </template>
@@ -11,6 +11,9 @@ import { ref } from "@vue/reactivity"
 import DragBox from "../tools/DragBox.vue"
 import * as echarts from 'echarts'
 import { onMounted } from "@vue/runtime-core";
+const props=defineProps({
+  option: Object
+});
 
 let myChart=null;
 const chart=ref(null);

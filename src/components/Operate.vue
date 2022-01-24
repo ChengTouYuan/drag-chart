@@ -11,16 +11,15 @@ import {ref, watch} from "vue"
 import {useStore} from "vuex"
 import { message } from 'ant-design-vue';
 const store=new useStore();
-const config=store.state.finallyConfig;
+const config=ref(store.state.config);
 const success = () => {
       message.success('保存成功！');
     };
 const save=()=>{
-  config.forEach(item=>{
-  delete item.component
-})
-  console.log(JSON.stringify(config))
-  localStorage.setItem("chartSetting",JSON.stringify(config))
+//   config.forEach(item=>{
+//   delete item.component
+// })
+  localStorage.setItem("chartSetting",JSON.stringify(config.value))
   success()
 }
 

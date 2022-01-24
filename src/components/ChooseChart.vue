@@ -2,7 +2,7 @@
   <div class="choose-chart">
     <span
       v-for="(item, index) of componentsConfig"
-      @click="chooseChart(item.name, true)"
+      @click="chooseChart(item.name)"
       :key="index"
       >{{ item.mean }}</span
     >
@@ -10,58 +10,32 @@
 </template>
 
 <script setup>
-import { defineEmits, watch, ref, nextTick } from "vue";
 import componentsConfig from "../config/componentsConfig";
 import { useStore } from "vuex";
-// const componentsConfig = [
-//   {
-//     name: "pipe1",
-//     mean:"饼图1",
-//     component: Pipe1,
-//   },
-// ];
+import randomString from '../tools/help.js'
 
-// const emit = defineEmits(["getConfig"]);
-let config = [];
 const store = new useStore();
-const getConfig = JSON.parse(localStorage.getItem("chartSetting"));
-const chooseChart = (type, isNew) => {
-  if (isNew) {
+const getConfig=JSON.parse(localStorage.getItem('chartSetting'));
+
+const chooseChart = (name) => {
     let component = componentsConfig.find((item) => {
-      return item.name == type;
+      return item.name == name;
     });
     let len = store.state.config.length;
     component = {
       ...component,
-      ...{ top: 100 + len * 10, left: 100 + len * 10 },
+      ...{ top: 100 + len * 10, left: 100 + len * 10 ,id:"chart-"+randomString(5)},
     };
-    // debugger
-    // setTimeout(()=>{
-      store.commit("setOption", component);
-      store.commit("pushConfig");
-    // })
-    // emit("getConfig", component);
-  } else {
-    setTimeout(()=>{
-      store.commit("setNewOption", type);
-    })
-    // store.state.option;
-    // // debugger
-    // emit("getConfig", type);
-  }
+    // debugger chart-x重复了
+    store.commit("pushConfig",component);
 };
 
-if(getConfig){
-  getConfig.forEach((item) => {
-  componentsConfig.forEach((e) => {
-    if (item.name == e.name) {
-      item["component"] = e["component"];
-      chooseChart(item);
-    }
-  });
-});
-store.commit("pushConfig", getConfig);
+if (getConfig) {
+  store.commit("setConfig", getConfig); 
 }
+
+
+
 </script>
 
 <style lang="scss" scoped>

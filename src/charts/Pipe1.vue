@@ -1,7 +1,7 @@
 
 
 <template>
-    <drag-box  @resize="resize" >
+    <drag-box  @resize="resize" :option="props.option" >
       <div ref="pipe" class="pipe"></div>
     </drag-box>
 </template>
@@ -17,7 +17,7 @@ import { useStore } from  'vuex'
 //利用drag box组件标识是哪一个组件
 //利用统一的配置，来更改option
 const props=defineProps({
-  data: String
+  option: Object
 })
 // const store=new useStore();
 // console.log(store.state.option); 

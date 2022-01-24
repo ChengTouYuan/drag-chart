@@ -4,42 +4,35 @@ export default createStore({
   // 声明变量
   state: {
     config: [], //用于起初控制渲染
-    option: {}, //中转option
+    option: {}, //中转option  一次性渲染页面时，这就是确定当前option个的位置
     finallyConfig: [], //用于保存最终保存结果时候的数据
+
+    currOption: {},
+
+    chooseConfig: [],
+
+    allNull: [],
   },
   //
   // 修改变量（state不能直接赋值修改，只能通过mutations）
   mutations: {
     // 参数一：state，参数二：新值
     pushConfig(state, value) {
-      if (value) {
-        state.config = value;
-      } else {
-        state.config.push(state.option);
-      }
+      state.config.push(value);
     },
-    pushFinally(state, newValue) {
-      state.finallyConfig.push(newValue);
+    setConfig(state, value) {
+      state.config = value;
     },
-    updateFinally(state, newValue) {
-      let index = state.finallyConfig.findIndex((item) => {
-        return item.id == newValue.id;
+    updateConfig(state, value) {
+      let index = state.config.findIndex((item) => {
+        return item.id == value.id;
       });
-      if (index != -1) {
-        state.finallyConfig[index] = {
-          ...state.finallyConfig[index],
-          ...newValue,
-        };
+
+      if (!value["delete"]) {
+        state.config.splice(index, 1, value);
       } else {
-        state.finallyConfig.push(newValue);
+        state.config.splice(index, 1);
       }
-    },
-    setOption(state, newValue) {
-      state.option = { ...state.option, ...newValue };
-    },
-    setNewOption(state, newValue) {
-      state.option = {};
-      state.option = { ...state.option, ...newValue };
     },
   },
   // mutations的值由actions传入

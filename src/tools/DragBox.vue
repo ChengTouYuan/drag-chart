@@ -1,10 +1,6 @@
 <template>
-  <div
-    ref="box"
-    class="box"
-    style=" z-index: 1"
-  >
-    <div ref="chart" class="slot-canvas" >
+  <div ref="box" class="box" style="z-index: 1"  v-on:click.right.prevent="rightClick" >
+    <div ref="chart" class="slot-canvas">
       <slot></slot>
     </div>
     <span class="r"></span>
@@ -23,62 +19,66 @@
   </div>
 </template>
 <script  setup>
-import { onMounted, ref , defineEmits} from "vue";
+import { onMounted, ref, defineEmits } from "vue";
 import { useStore } from "vuex";
-
+const props=defineProps({
+  option:Object
+})
 const box = ref(null);
 const chart = ref(null);
-const inner = ref(null)
-const emit = defineEmits(['resize','getBoundingRect']);
-let returnData={};
-// const innerclick=(e)=>{
-// console.log(e,box.value)
-// }
-const store=new useStore();
-const getBoundingRect=(w,h,t,l,id)=>{
-    returnData['width']=w
-    returnData['height']=h;
-    returnData['top']=t;
-    returnData['left']=l;
-    emit("getBoundingRect",returnData);
-    
-    if(id){
-     let com= store.state.finallyConfig.find(item=>{
-        return item.id==id;
-      })
-store.commit("updateFinally",{...com,...returnData});
+const inner = ref(null);
+const emit = defineEmits(["resize"]);
+let returnData = {};
+let curr;
+let id;
 
-    }else{
-      store.state.option;
-      let aa={...store.state.option,...returnData}
-    
- store.commit("updateFinally",{...store.state.option,...returnData})
-    }
- 
-    
-    
+
+
+const store = new useStore();
+const getBoundingRect = (w, h, t, l) => {
+  returnData["width"] = w;
+  returnData["height"] = h;
+  returnData["top"] = t;
+  returnData["left"] = l;
+curr={...props.option,...returnData}
+// console.log(curr)
+store.commit("updateConfig", curr);
+
+};
+const rightClick=(e)=>{
+  //邮件选项添加 hook 待添加！！！
+  // debugger
+
+  console.log(curr.id,e.target)
+  store.commit("updateConfig", {...curr,...{delete:true}});
+
 }
 
 onMounted(() => {
-
-   let canvas = document.getElementById("canvas");
-  let boxs=canvas.querySelectorAll(".box");
+  let canvas = document.getElementById("canvas");
+  let boxs = canvas.querySelectorAll(".box");
   let oDiv = box.value;
-  let innerDiv=inner.value;
-  oDiv.style.cssText+=`top: ${store.state.option.top}px; 
-  left: ${store.state.option.left}px;
-  width:${store.state.option.width}px;
-  height:${store.state.option.height}px`;
-  
-  oDiv.setAttribute("id","chart-"+boxs.length)
-   returnData['id']="chart-"+boxs.length;
-  
+  let innerDiv = inner.value;
+  // oDiv.style.cssText += `top: ${store.state.option.top}px; 
+  // left: ${store.state.option.left}px;
+  // width:${store.state.option.width}px;
+  // height:${store.state.option.height}px`; 
+    oDiv.style.cssText += `top: ${props.option.top}px; 
+  left: ${props.option.left}px;
+  width:${props.option.width}px;
+  height:${props.option.height}px`; 
+  oDiv.setAttribute("id", props.option.id);
   let canvasRect = canvas.getBoundingClientRect();
   let aSpan = oDiv.getElementsByTagName("span");
   for (let i = 0; i < aSpan.length; i++) {
     dragFn(aSpan[i], oDiv, canvasRect);
   }
- getBoundingRect(oDiv.offsetWidth,oDiv.offsetHeight,oDiv.offsetTop,oDiv.offsetLeft)
+  getBoundingRect(
+    oDiv.offsetWidth,
+    oDiv.offsetHeight,
+    oDiv.offsetTop,
+    oDiv.offsetLeft
+  );
 
   oDiv.onmousedown = function (ev) {
     var oevent = ev || event;
@@ -112,13 +112,17 @@ onMounted(() => {
     document.onmouseup = function () {
       document.onmousemove = null;
       document.onmouseup = null;
- getBoundingRect(oDiv.offsetWidth,oDiv.offsetHeight,oDiv.offsetTop,oDiv.offsetLeft,returnData['id'])
+      getBoundingRect(
+        oDiv.offsetWidth,
+        oDiv.offsetHeight,
+        oDiv.offsetTop,
+        oDiv.offsetLeft
+      );
     };
   };
 });
 
 function dragFn(obj, oDiv, canvasRect) {
-     
   obj.onmousedown = function (ev) {
     let oEv = ev || event;
     oEv.stopPropagation();
@@ -213,15 +217,17 @@ function dragFn(obj, oDiv, canvasRect) {
         }
         oDiv.style.right = disX + "px";
       }
-      
-     emit("resize",{})
-    
-    
+      emit("resize", {});
     };
 
     document.onmouseup = function () {
       document.onmousemove = null;
-    getBoundingRect(oDiv.offsetWidth,oDiv.offsetHeight,oDiv.offsetTop,oDiv.offsetLeft,returnData['id'])
+      getBoundingRect(
+        oDiv.offsetWidth,
+        oDiv.offsetHeight,
+        oDiv.offsetTop,
+        oDiv.offsetLeft
+      );
     };
     return false;
   };
@@ -232,8 +238,8 @@ function dragFn(obj, oDiv, canvasRect) {
   position: absolute;
   cursor: move;
   .slot-canvas {
-      width: 100%;
-      height: 100%;
+    width: 100%;
+    height: 100%;
     position: absolute;
   }
   /*四边*/
@@ -340,7 +346,7 @@ function dragFn(obj, oDiv, canvasRect) {
   .inner {
     width: 100%;
     height: 100%;
-    position: absolute; 
+    // position: absolute;
   }
 }
 
