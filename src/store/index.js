@@ -5,13 +5,6 @@ export default createStore({
   state: {
     config: [], //用于起初控制渲染
     option: {}, //中转option  一次性渲染页面时，这就是确定当前option个的位置
-    finallyConfig: [], //用于保存最终保存结果时候的数据
-
-    currOption: {},
-
-    chooseConfig: [],
-
-    allNull: [],
   },
   //
   // 修改变量（state不能直接赋值修改，只能通过mutations）
@@ -27,13 +20,17 @@ export default createStore({
       let index = state.config.findIndex((item) => {
         return item.id == value.id;
       });
-
       if (!value["delete"]) {
         state.config.splice(index, 1, value);
       } else {
         state.config.splice(index, 1);
       }
     },
+
+    setOption(state,value){
+      state.option=value;
+    },
+    
   },
   // mutations的值由actions传入
   actions: {},

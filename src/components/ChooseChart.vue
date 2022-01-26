@@ -24,10 +24,12 @@ const chooseChart = (name) => {
     let len = store.state.config.length;
     component = {
       ...component,
-      ...{ top: 100 + len * 10, left: 100 + len * 10 ,id:"chart-"+randomString(5)},
+      ...{ top: 100 + len * 10, left: 100 + len * 10 ,id:"chart-"+randomString(5)
+      },
     };
     // debugger chart-x重复了
     store.commit("pushConfig",component);
+    store.commit("setOption",component)
 };
 
 if (getConfig) {

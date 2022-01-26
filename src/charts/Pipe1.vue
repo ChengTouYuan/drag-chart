@@ -10,8 +10,8 @@
 import { ref } from "@vue/reactivity"
 import DragBox from "../tools/DragBox.vue"
 import * as echarts from 'echarts'
-import { onMounted } from "@vue/runtime-core";
-import {defineProps} from "vue"
+import { nextTick, onMounted } from "@vue/runtime-core";
+import {defineProps,watch} from "vue"
 import { useStore } from  'vuex'
 
 //利用drag box组件标识是哪一个组件
@@ -22,7 +22,7 @@ const props=defineProps({
 // const store=new useStore();
 // console.log(store.state.option); 
 // debugger
-
+const store=new useStore();
 let myChart=ref(null);
 const pipe=ref(null);
 
@@ -32,10 +32,40 @@ onMounted(()=>{
 const resize=(value)=>{
   myChart.resize()
 }
+let data=[
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+        { value: 580, name: 'Email' },
+        { value: 484, name: 'Union Ads' },
+        { value: 300, name: 'Video Ads' }
+      ]
+let a=JSON.stringify(data);
+let setOption=props.option['setting'];
+
+
+
+ watch(()=>props.option,
+(curr,prev)=>{
+  console.log(props.option,"pipe1,watch");
+  setOption=props.option['setting'];
+  nextTick(()=>{
+    setBar()
+  })
+},{
+  deep:true,
+  immediate:true
+}
+)
+
+
+
 
 
 function setBar(){
 	let option = {
+    title:{
+      text:setOption.style.title
+    },
   tooltip: {
     trigger: 'item'
   },
@@ -68,13 +98,7 @@ function setBar(){
       labelLine: {
         show: false
       },
-      data: [
-        { value: 1048, name: 'Search Engine' },
-        { value: 735, name: 'Direct' },
-        { value: 580, name: 'Email' },
-        { value: 484, name: 'Union Ads' },
-        { value: 300, name: 'Video Ads' }
-      ]
+      data: data
     }
   ]
 };

@@ -42,7 +42,8 @@ const getBoundingRect = (w, h, t, l) => {
   returnData["left"] = l;
 curr={...props.option,...returnData}
 // console.log(curr)
-store.commit("updateConfig", curr);
+store.commit("updateConfig", curr);//更新配置
+store.commit("setOption",curr);//点击获取当前配置 setting
 
 };
 const rightClick=(e)=>{

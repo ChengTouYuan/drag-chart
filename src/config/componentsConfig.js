@@ -4,7 +4,16 @@ const componentsConfig = [
     name: "pipe1",
     mean:"饼图1",
     width:300,
-    height:300
+    height:300,
+    setting:{
+      data: {
+        name: "",
+        value: "",
+      },
+      style: {
+        title: "标题",
+      },
+    }
   },{
     name: "bar1",
     mean:"堆叠柱状图",

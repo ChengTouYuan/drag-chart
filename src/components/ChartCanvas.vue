@@ -18,6 +18,16 @@ import { useStore } from "vuex";
 
 const store = new useStore(); 
 let components = ref(store.state.config);
+
+// watch(()=>store.state.config,
+// (curr,prev)=>{
+//   components.value = store.state.config;
+//   console.log(store.state.config,"chartCanvas")
+  
+// },{
+//   deep:true
+// }
+// )
 </script>
 <style lang="scss" scoped>
 #canvas {
