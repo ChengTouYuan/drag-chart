@@ -1,13 +1,13 @@
-#如何使用
-###下载项目
+# 如何使用
+### 下载项目
 `git clone https://github.com/ChengTouYuan/drag-chart.git`
-###安装依赖
+### 安装依赖
 `npm install`
 `yarn install`
-###启动项目
+### 启动项目
 `npm run dev`
 
-#介绍
+# 介绍
 点击组件栏即可新增组件;组件在画布中可拖动;缩放调整大小;右键删除组件;右侧可配置组件内容。
 
 # Vue 3 + Vite
