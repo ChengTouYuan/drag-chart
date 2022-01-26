@@ -7,8 +7,7 @@ const componentsConfig = [
     height:300,
     setting:{
       data: {
-        name: "",
-        value: "",
+        value:null,
       },
       style: {
         title: "标题",

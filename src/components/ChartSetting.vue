@@ -9,7 +9,7 @@
          <!-- <input  v-model="value[k]" /> -->
           <a-textarea
       v-model:value="value[k]"
-      placeholder="Controlled autosize"
+      placeholder="JSON"
       :auto-size="{ minRows: 3, maxRows: 5 }"
     />
          </div>
@@ -38,7 +38,11 @@ let config=ref(null);
 
 watch(()=>store.state.option,
 (curr,prev)=>{
-  console.log(store.state.option,"settingWatch")
+  console.log(store.state.option,"settingWatch");
+  // let data=store.state.option.setting.data;
+  // for(let key of Object.keys(data)){
+  //   data[key]=JSON.stringify(data[key]);
+  // }
   config.value=store.state.option.setting;
   
 },{
