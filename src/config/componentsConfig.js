@@ -12,7 +12,8 @@ const componentsConfig = [
       style: {
         title: "标题",
       },
-    }
+    },
+    setOption:""
   },{
     name: "bar1",
     mean:"堆叠柱状图",

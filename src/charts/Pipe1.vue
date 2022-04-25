@@ -17,37 +17,36 @@ import { useStore } from "vuex";
 const props = defineProps({
   option: Object,
 });
-// const store=new useStore();
-// console.log(store.state.option);
-// debugger
-const store = new useStore();
 let myChart = ref(null);
 const pipe = ref(null);
-
-onMounted(() => {
-  setBar();
-});
-const resize = (value) => {
-  myChart.resize();
-};
 
 // let a=JSON.stringify(data);
 let setOption = props.option["setting"];
 
-let data = null;
+let data = {
+  id: {},
+  setting: {
+    style: {
+      title: "",
+    },
+    data: {
+      value: [],
+    },
+  },
+};
 
 watch(
   () => props.option,
   (curr, prev) => {
     setOption = props.option["setting"];
-
+    data.setting.style=setOption.style;
     try {
-      data = JSON.parse(setOption.data.value);
+      data.setting.data.value = JSON.parse(setOption.data.value);
       if (!setOption.data.value) {
         throw new error();
       }
     } catch {
-      data = [
+      data.setting.data.value = [
         { value: 1048, name: "Search Engine" },
         { value: 735, name: "Direct" },
         { value: 580, name: "Email" },
@@ -57,7 +56,7 @@ watch(
     }
 
     nextTick(() => {
-      setBar();
+      setBar(data);
     });
   },
   {
@@ -66,10 +65,19 @@ watch(
   }
 );
 
-function setBar() {
+onMounted(() => {
+  data.id = pipe.value;
+  setBar(data);
+});
+const resize = (value) => {
+  myChart.resize();
+};
+
+const setBar = (data) => {
+  console.log(data.setting.style.title,"title")
   let option = {
     title: {
-      text: setOption.style.title,
+      text: data.setting.style.title,
     },
     tooltip: {
       trigger: "item",
@@ -103,13 +111,18 @@ function setBar() {
         labelLine: {
           show: false,
         },
-        data: data,
+        data: data.setting.data.value,
       },
     ],
   };
-  myChart = echarts.init(pipe.value);
+  myChart = echarts.init(data.id);
   myChart.setOption(option);
-}
+};
+// 
+data.setOption=setBar.toString();
+
+console.log(data);
+debugger
 </script>
 <style lang="scss" scoped>
 #canvas {

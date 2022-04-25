@@ -15,7 +15,7 @@
          </div>
       </div>
 
-      <a-button  @click="change">确定</a-button>
+      <!-- <a-button  @click="change">确定</a-button> -->
   </div>
 </template>
 <script  setup>

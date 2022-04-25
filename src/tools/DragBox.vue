@@ -47,7 +47,7 @@ store.commit("setOption",curr);//点击获取当前配置 setting
 
 };
 const rightClick=(e)=>{
-  //邮件选项添加 hook 待添加！！！
+  //右键选项添加 hook 待添加！！！
   // debugger
 
   console.log(curr.id,e.target)
