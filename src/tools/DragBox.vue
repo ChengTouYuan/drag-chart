@@ -19,7 +19,7 @@
   </div>
 </template>
 <script  setup>
-import { onMounted, ref, defineEmits } from "vue";
+import { onMounted, ref, defineEmits, watch,defineExpose } from "vue";
 import { useStore } from "vuex";
 const props=defineProps({
   option:Object
@@ -31,31 +31,37 @@ const emit = defineEmits(["resize"]);
 let returnData = {};
 let curr;
 let id;
+const opt=ref({})
 
+watch(()=>props.option,
+(curr,prev)=>{
+  console.log(curr,"setBox") 
+  if(curr.id){
+    opt.value=store.state.allOption.find(item=>{
+      return curr.id==item.id;
+    })
+    setBox();
+    emit("resize", {});
+  }
 
+})
 
 const store = new useStore();
+
 const getBoundingRect = (w, h, t, l) => {
   returnData["width"] = w;
   returnData["height"] = h;
   returnData["top"] = t;
   returnData["left"] = l;
-curr={...props.option,...returnData}
-// console.log(curr)
-store.commit("updateConfig", curr);//更新配置
-store.commit("setOption",curr);//点击获取当前配置 setting
+curr={...opt.value,...returnData};
+store.commit("updateO", curr);//更新配置 改变全局
+// store.commit("setOption",curr);//点击获取当前配置 setting
+store.commit("setCurrId",curr.id)
+
 
 };
-const rightClick=(e)=>{
-  //右键选项添加 hook 待添加！！！
-  // debugger
 
-  console.log(curr.id,e.target)
-  store.commit("updateConfig", {...curr,...{delete:true}});
-
-}
-
-onMounted(() => {
+const setBox=()=>{
   let canvas = document.getElementById("canvas");
   let boxs = canvas.querySelectorAll(".box");
   let oDiv = box.value;
@@ -64,11 +70,11 @@ onMounted(() => {
   // left: ${store.state.option.left}px;
   // width:${store.state.option.width}px;
   // height:${store.state.option.height}px`; 
-    oDiv.style.cssText += `top: ${props.option.top}px; 
-  left: ${props.option.left}px;
-  width:${props.option.width}px;
-  height:${props.option.height}px`; 
-  oDiv.setAttribute("id", props.option.id);
+    oDiv.style.cssText += `top: ${opt.value.top}px; 
+  left: ${opt.value.left}px;
+  width:${opt.value.width}px;
+  height:${opt.value.height}px`; 
+  oDiv.setAttribute("id", opt.value.id);
   let canvasRect = canvas.getBoundingClientRect();
   let aSpan = oDiv.getElementsByTagName("span");
   for (let i = 0; i < aSpan.length; i++) {
@@ -80,8 +86,7 @@ onMounted(() => {
     oDiv.offsetTop,
     oDiv.offsetLeft
   );
-
-  oDiv.onmousedown = function (ev) {
+    oDiv.onmousedown = function (ev) {
     var oevent = ev || event;
     oevent.preventDefault();
     var distanceX = oevent["clientX"] - oDiv.offsetLeft;
@@ -121,6 +126,18 @@ onMounted(() => {
       );
     };
   };
+}
+
+const rightClick=(e)=>{
+  //右键选项添加 hook 待添加！！！
+  // debugger
+  console.log(curr.id,e.target)
+  store.commit("updateO", {...curr,...{delete:true}});
+
+}
+
+onMounted(() => {
+// setBox();
 });
 
 function dragFn(obj, oDiv, canvasRect) {

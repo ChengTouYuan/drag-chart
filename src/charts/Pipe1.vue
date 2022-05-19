@@ -1,5 +1,5 @@
 <template>
-  <drag-box @resize="resize" :option="props.option">
+  <drag-box  ref="dragbox" @resize="resize" :option="dragOption">
     <div ref="pipe" class="pipe"></div>
   </drag-box>
 </template>
@@ -14,60 +14,68 @@ import { useStore } from "vuex";
 
 //利用drag box组件标识是哪一个组件
 //利用统一的配置，来更改option
-const props = defineProps({
-  option: Object,
-});
+// const props = defineProps({
+//   option: Object,
+// });
 let myChart = ref(null);
 const pipe = ref(null);
+/**
+ * interface option{
+ *  id:string,
+ * height:number,
+ * left:number,
+ * top:number,
+ * width:number
+ * }
+ */
+let dragOption = ref(null);
+
+
+const dragbox=ref(null);
 
 // let a=JSON.stringify(data);
-let setOption = props.option["setting"];
+// let setOption = props.option["setting"];
 
 let data = {
   id: {},
   setting: {
     style: {
-      title: "",
+      title: "标题",
     },
     data: {
-      value: [],
-    },
-  },
-};
-
-watch(
-  () => props.option,
-  (curr, prev) => {
-    setOption = props.option["setting"];
-    data.setting.style=setOption.style;
-    try {
-      data.setting.data.value = JSON.parse(setOption.data.value);
-      if (!setOption.data.value) {
-        throw new error();
-      }
-    } catch {
-      data.setting.data.value = [
+      value: [
         { value: 1048, name: "Search Engine" },
         { value: 735, name: "Direct" },
         { value: 580, name: "Email" },
         { value: 484, name: "Union Ads" },
         { value: 300, name: "Video Ads" },
-      ];
-    }
-
-    nextTick(() => {
-      setBar(data);
-    });
+      ]
+    },
   },
-  {
-    deep: true,
-    immediate: true,
-  }
-);
+};
+const optionSet=(opt)=>{
+  console.log(opt,"option");
+  // if(!dragOption.value){ 
+    const {id}=opt;
+    dragOption.value={id:id}; 
+  // }else{
+    data.setting.style={...data.setting.style,...opt.setting.style}
+    data.setting.data=opt.setting.data?opt.setting.data:data.setting.data
+    setBar(data);
+  // }
+
+  // store.commit("setOption",opt);
+}
+
+defineExpose({
+  optionSet
+})
+
 
 onMounted(() => {
   data.id = pipe.value;
   setBar(data);
+
 });
 const resize = (value) => {
   myChart.resize();
@@ -118,11 +126,6 @@ const setBar = (data) => {
   myChart = echarts.init(data.id);
   myChart.setOption(option);
 };
-// 
-data.setOption=setBar.toString();
-
-console.log(data);
-debugger
 </script>
 <style lang="scss" scoped>
 #canvas {

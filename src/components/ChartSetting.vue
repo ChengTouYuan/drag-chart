@@ -36,17 +36,42 @@ import { useStore } from "vuex";
 const store =new  useStore();
 let config=ref(null);
 
-watch(()=>store.state.option,
+  // let index=store.state.allOption.findIndex(item=>{
+  //   return item.id==curr.id;
+  // })
+  // store.state.componentInstance[index].optionSet(curr);
+
+// watch(()=>config,()=>{
+
+
+// })
+
+let currInstance=ref(null);
+let currOption=ref(null)
+
+watch(()=>store.state.currId,
 (curr,prev)=>{
-  console.log(store.state.option,"settingWatch");
-  // let data=store.state.option.setting.data;
+  console.log(curr,"settingWatch");
+  // let data=store.state.option.setting.data;  
   // for(let key of Object.keys(data)){
   //   data[key]=JSON.stringify(data[key]);
   // }
-  config.value=store.state.option.setting;
-  
+ let index=store.state.allOption.findIndex(item=>{
+    return item.id==curr;
+  })
+  currOption=store.state.allOption[index];
+  config.value=currOption.setting;
+  currInstance=store.state.componentInstance[index]
 },{
   deep:true
+}
+)
+
+watch(()=>config,(curr,prev)=>{
+currInstance.optionSet(currOption)
+},
+{
+  deep:true,
 }
 )
 // debugger
