@@ -1,8 +1,8 @@
 Arguments: 
-  D:\node\node.exe C:\Users\chengxiangyuan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add vuex@next --save
+  D:\node\node.exe C:\Users\chengxiangyuan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @ant-design/icons-vue
 
 PATH: 
-  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\git\Git\cmd;D:\node\;C:\Users\chengxiangyuan\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;D:\Microsoft VS Code\bin;C:\Users\chengxiangyuan\AppData\Roaming\npm
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\git\Git\cmd;D:\node\;D:\c\mingw64\bin;C:\Users\chengxiangyuan\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;D:\Microsoft VS Code\bin;C:\Users\chengxiangyuan\AppData\Roaming\npm
 
 Yarn version: 
   1.22.11
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\vscode-workspace\vue3+Vite+demo\drag-chart\node_modules\esbuild-windows-64\esbuild.exe'
+  Error: EPERM: operation not permitted, unlink 'D:\vscode-workspace\vue3+Vite+demo\git-drag-chart\drag-chart\node_modules\esbuild-windows-64\esbuild.exe'
 
 npm manifest: 
   {
@@ -26,12 +26,14 @@ npm manifest:
       "preview": "vite preview"
     },
     "dependencies": {
+      "@ant-design/icons-vue": "^6.1.0",
       "ant-design-vue": "^2.2.8",
       "echarts": "^5.2.0",
       "node-sass": "^6.0.1",
       "sass": "^1.49.0",
       "sass-loader": "^10.2.0",
-      "vue": "^3.2.25"
+      "vue": "^3.2.25",
+      "vuex": "^4.0.2"
     },
     "devDependencies": {
       "@vitejs/plugin-vue": "^2.0.0",
@@ -47,27 +49,25 @@ Lockfile:
   # yarn lockfile v1
   
   
-  "@ant-design/colors@^5.0.0":
-    "integrity" "sha512-Txy4KpHrp3q4XZdfgOBqLl+lkQIc3tEvHXOimRN1giX1AEC7mGtyrO9p8iRGJ3FLuVMGa2gNEzQyghVymLttKQ=="
-    "resolved" "https://registry.npmjs.org/@ant-design/colors/-/colors-5.1.1.tgz"
-    "version" "5.1.1"
+  "@ant-design/colors@^6.0.0":
+    "integrity" "sha512-qAZRvPzfdWHtfameEGP2Qvuf838NhergR35o+EuVyB5XvSA98xod5r4utvi4TJ3ywmevm290g9nsCG5MryrdWQ=="
+    "resolved" "https://registry.npmjs.org/@ant-design/colors/-/colors-6.0.0.tgz"
+    "version" "6.0.0"
     dependencies:
-      "@ctrl/tinycolor" "^3.3.1"
+      "@ctrl/tinycolor" "^3.4.0"
   
-  "@ant-design/icons-svg@^4.0.0":
+  "@ant-design/icons-svg@^4.2.1":
     "integrity" "sha512-EB0iwlKDGpG93hW8f85CTJTs4SvMX7tt5ceupvhALp1IF44SeUFOMhKUOYqpsoYWQKAOuTRDMqn75rEaKDp0Xw=="
     "resolved" "https://registry.npmjs.org/@ant-design/icons-svg/-/icons-svg-4.2.1.tgz"
     "version" "4.2.1"
   
-  "@ant-design/icons-vue@^6.0.0":
-    "integrity" "sha512-HigIgEVV6bbcrz2A92/qDzi/aKWB5EC6b6E1mxMB6aQA7ksiKY+gi4U94TpqyEIIhR23uaDrjufJ+xCZQ+vx6Q=="
-    "resolved" "https://registry.npmjs.org/@ant-design/icons-vue/-/icons-vue-6.0.1.tgz"
-    "version" "6.0.1"
+  "@ant-design/icons-vue@^6.0.0", "@ant-design/icons-vue@^6.1.0":
+    "integrity" "sha512-EX6bYm56V+ZrKN7+3MT/ubDkvJ5rK/O2t380WFRflDcVFgsvl3NLH7Wxeau6R8DbrO5jWR6DSTC3B6gYFp77AA=="
+    "resolved" "https://registry.npmjs.org/@ant-design/icons-vue/-/icons-vue-6.1.0.tgz"
+    "version" "6.1.0"
     dependencies:
-      "@ant-design/colors" "^5.0.0"
-      "@ant-design/icons-svg" "^4.0.0"
-      "@types/lodash" "^4.14.165"
-      "lodash" "^4.17.15"
+      "@ant-design/colors" "^6.0.0"
+      "@ant-design/icons-svg" "^4.2.1"
   
   "@babel/code-frame@^7.0.0":
     "integrity" "sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg=="
@@ -102,10 +102,10 @@ Lockfile:
     dependencies:
       "regenerator-runtime" "^0.13.4"
   
-  "@ctrl/tinycolor@^3.3.1":
-    "integrity" "sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ=="
-    "resolved" "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz"
-    "version" "3.4.0"
+  "@ctrl/tinycolor@^3.4.0":
+    "integrity" "sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw=="
+    "resolved" "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz"
+    "version" "3.4.1"
   
   "@simonwep/pickr@~1.8.0":
     "integrity" "sha512-/l5w8BIkrpP6n1xsetx9MWPWlU6OblN5YgZZphxan0Tq4BByTCETL6lyIeY8lagalS2Nbt4F2W034KHLIiunKA=="
@@ -119,11 +119,6 @@ Lockfile:
     "integrity" "sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ=="
     "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
     "version" "7.0.9"
-  
-  "@types/lodash@^4.14.165":
-    "integrity" "sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw=="
-    "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.178.tgz"
-    "version" "4.14.178"
   
   "@types/minimist@^1.2.0":
     "integrity" "sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ=="
@@ -181,6 +176,11 @@ Lockfile:
     dependencies:
       "@vue/compiler-dom" "3.2.27"
       "@vue/shared" "3.2.27"
+  
+  "@vue/devtools-api@^6.0.0-beta.11":
+    "integrity" "sha512-IiA0SvDrJEgXvVxjNkHPFfDx6SXw0b/TUkqMcDZWNg9fnCAHbTpoo59YfJ9QLFkwa3raau5vSlRVzMSLDnfdtQ=="
+    "resolved" "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.1.4.tgz"
+    "version" "6.1.4"
   
   "@vue/reactivity-transform@3.2.27":
     "integrity" "sha512-67//61ObGxGnVrPhjygocb24eYUh+TFMhkm7szm8v5XdKXjkNl7qgIOflwGvUnwuIRJmr9nZ7+PvY0fL+H2upA=="
@@ -1966,7 +1966,7 @@ Lockfile:
     dependencies:
       "is-plain-object" "3.0.1"
   
-  "vue@^3.0.0", "vue@^3.2.25", "vue@>=3.0.3", "vue@>=3.1.0", "vue@3.2.27":
+  "vue@^3.0.0", "vue@^3.0.2", "vue@^3.2.25", "vue@>=3.0.3", "vue@>=3.1.0", "vue@3.2.27":
     "integrity" "sha512-p1cH8Q6eaPwvANCjFQj497a914cxXKKwOG3Lg9USddTOrn4/zFMKjn9dnovkx+L8VtFaNgbVqW8mLJS/eTA6xw=="
     "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.27.tgz"
     "version" "3.2.27"
@@ -1976,6 +1976,13 @@ Lockfile:
       "@vue/runtime-dom" "3.2.27"
       "@vue/server-renderer" "3.2.27"
       "@vue/shared" "3.2.27"
+  
+  "vuex@^4.0.2":
+    "integrity" "sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q=="
+    "resolved" "https://registry.npmjs.org/vuex/-/vuex-4.0.2.tgz"
+    "version" "4.0.2"
+    dependencies:
+      "@vue/devtools-api" "^6.0.0-beta.11"
   
   "warning@^4.0.0":
     "integrity" "sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w=="

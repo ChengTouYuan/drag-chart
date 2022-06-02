@@ -21,6 +21,7 @@ const store = new useStore();
 let components = ref(store.state.allComponent);
 
 let refBtns = reactive({});
+let onlyCreate=ref(true);
 const setrefsFun = (el, item) => {
         if (el) {
           refBtns[item] = el;
@@ -40,14 +41,22 @@ const setrefsFun = (el, item) => {
       
 // .children[0].component.devtoolsRawSetupState
 
-  
 watch(()=>refBtns,
 (curr,prev)=>{
-  // console.log(curr,prev)
-  // console.log(components.value.length)
-  // debugger
-  const stackTop=components.value.length-1;
-  curr[stackTop].optionSet(store.state.allOption[stackTop])
+  //出事化
+  if(onlyCreate){
+    for(let key in curr){
+      curr[key].optionSet(store.state.allOption[key])
+    }
+    onlyCreate.value=false;
+    return;
+  }
+    const stackTop=components.value.length-1;
+    // let a=?curr[stackTop]['optionSet']:null;
+    if(curr[stackTop]){
+      curr[stackTop].optionSet(store.state.allOption[stackTop])
+    }
+    // 
   // debugger
   //  for(let i=0;i<components.value.length;i++){
   //           curr[i].optionSet(store.state.allOption[i])
@@ -77,7 +86,7 @@ watch(()=>store.state.allOption,
   console.log(curr,"allOption")
   
 },{
-  deep:true 
+  deep:true,
 }
 )
 

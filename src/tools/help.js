@@ -1,6 +1,6 @@
 
 
-export const randomString = (len) => {
+ const randomString = (len) => {
     let chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz123456789';
     let strLen = chars.length;
     let randomStr = '';
@@ -9,5 +9,10 @@ export const randomString = (len) => {
     }
     return randomStr;
 };
-
-export default randomString;
+const getType = (obj)=>{
+    return Object.prototype.toString.call(obj).slice(8, -1);
+}
+export default {
+    randomString,
+    getType
+}

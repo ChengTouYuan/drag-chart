@@ -11,7 +11,7 @@ import {ref, watch} from "vue"
 import {useStore} from "vuex"
 import { message } from 'ant-design-vue';
 const store=new useStore();
-const config=ref(store.state.config);
+const config=ref(store.state.allOption);
 const success = () => {
       message.success('保存成功！');
     };
