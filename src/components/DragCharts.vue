@@ -38,9 +38,9 @@ const inConfig = ref([])
   .canvas-setting{
     display: grid;
     grid-template-columns: 1fr 300px;
-    gap: 10px;
+    gap: 5px;
     margin-top: 10px;
-    height: calc(100% - 60px);
+    height: calc(100% - 55px);
   }
 }
 </style>

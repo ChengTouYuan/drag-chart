@@ -1,152 +1,122 @@
-
-
 <template>
-    <drag-box  @resize="resize" :option="props.option">
-      <div ref="chart" class="chart"></div>
-    </drag-box>
+  <drag-box ref="dragbox" @resize="resize" :option="dragOption">
+    <div ref="pipe" class="pipe"></div>
+  </drag-box>
 </template>
 
-<script  setup>
-import { ref } from "@vue/reactivity"
-import DragBox from "../tools/DragBox.vue"
-import * as echarts from 'echarts'
-import { onMounted } from "@vue/runtime-core";
-const props=defineProps({
-  option: Object
+<script setup>
+import { ref } from "@vue/reactivity";
+import DragBox from "../tools/DragBox.vue";
+import * as echarts from "echarts";
+import { nextTick, onMounted } from "@vue/runtime-core";
+import { defineProps, watch } from "vue";
+import { useStore } from "vuex";
+
+//利用drag box组件标识是哪一个组件
+//利用统一的配置，来更改option
+// const props = defineProps({
+//   option: Object,
+// });
+let myChart = ref(null);
+const pipe = ref(null);
+/**
+ * interface option{
+ *  id:string,
+ * height:number,
+ * left:number,
+ * top:number,
+ * width:number
+ * }
+ */
+let dragOption = ref(null);
+
+const dragbox = ref(null);
+
+// let a=JSON.stringify(data);
+// let setOption = props.option["setting"];
+
+let data = {
+  id: {},
+  setting: {
+    style: {
+      title: "标题",
+    },
+    data: {
+      value: [
+        { value: 1048, name: "Search Engine" },
+        { value: 735, name: "Direct" },
+        { value: 580, name: "Email" },
+        { value: 484, name: "Union Ads" },
+        { value: 300, name: "Video Ads" },
+      ],
+    },
+  },
+};
+const optionSet = (opt) => {
+  console.log(opt, "option");
+  // if(!dragOption.value){
+  const { id } = opt;
+  dragOption.value = { id: id };
+  // }else{
+  data.setting.style = { ...data.setting.style, ...opt.setting.style };
+  data.setting.data = opt.setting.data ? opt.setting.data : data.setting.data;
+  setBar(data);
+  // }
+
+  // store.commit("setOption",opt);
+};
+
+defineExpose({
+  optionSet,
 });
 
-let myChart=null;
-const chart=ref(null);
-onMounted(()=>{
-  setChart();
-})
-const resize=(value)=>{
-  myChart.resize()
-}
-
-const setChart=()=>{
-	let option = {
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'shadow'
-    }
-  },
-  legend: {},
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value'
-    }
-  ],
-  series: [
-    {
-      name: 'Direct',
-      type: 'bar',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [320, 332, 301, 334, 390, 330, 320]
-    },
-    {
-      name: 'Email',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: 'Union Ads',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: 'Video Ads',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [150, 232, 201, 154, 190, 330, 410]
-    },
-    {
-      name: 'Search Engine',
-      type: 'bar',
-      data: [862, 1018, 964, 1026, 1679, 1600, 1570],
-      emphasis: {
-        focus: 'series'
-      },
-      markLine: {
-        lineStyle: {
-          type: 'dashed'
-        },
-        data: [[{ type: 'min' }, { type: 'max' }]]
-      }
-    },
-    {
-      name: 'Baidu',
-      type: 'bar',
-      barWidth: 5,
-      stack: 'Search Engine',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [620, 732, 701, 734, 1090, 1130, 1120]
-    },
-    {
-      name: 'Google',
-      type: 'bar',
-      stack: 'Search Engine',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [120, 132, 101, 134, 290, 230, 220]
-    },
-    {
-      name: 'Bing',
-      type: 'bar',
-      stack: 'Search Engine',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [60, 72, 71, 74, 190, 130, 110]
-    },
-    {
-      name: 'Others',
-      type: 'bar',
-      stack: 'Search Engine',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [62, 82, 91, 84, 109, 110, 120]
-    }
-  ]
+onMounted(() => {
+  data.id = pipe.value;
+  setBar(data);
+});
+const resize = (value) => {
+  myChart.resize();
 };
-myChart=echarts.init(chart.value)
-myChart.setOption(option)
-}	
+
+const setBar = (data) => {
+  let x = [];
+  let y = [];
+  data.setting.data.value.forEach((item) => {
+    x.push(item.name);
+    y.push(item.value);
+  });
+  let option = {
+    title: {
+      text: data.setting.style.title,
+    },
+    tooltip: {
+      trigger: "item",
+    },
+    xAxis: {
+      type: "category",
+      data: x,
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: y,
+        type: "bar",
+      },
+    ],
+  };
+  myChart = echarts.init(data.id);
+  myChart.setOption(option);
+};
 </script>
 <style lang="scss" scoped>
- .chart{
-   width: 100%;
-   height: 100%;
- }
-
+#canvas {
+  background-color: #fff;
+  position: relative;
+  .pipe {
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>

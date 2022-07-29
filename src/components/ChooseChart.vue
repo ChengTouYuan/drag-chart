@@ -41,13 +41,14 @@ const chooseChart = (name, id = "") => {
   };
 
   store.commit("pushToAllC", component);
-  store.commit("pushToAllO", option);
+  store.commit("pushToAllO", option); 
 };
 
 if (getConfig) {
   //如果是从后端调取，或者从本地取，直接设置allcomponent  记得设置 alloption
   store.commit("setAllO", getConfig);
-  nextTick(() => {
+  // console.log(JSON.stringify(getConfig))
+  nextTick(() => { //循环push component  必须使用nextTick
     getConfig.forEach((item) => {
       chooseChart(item.name, item.id);
     });

@@ -1,5 +1,6 @@
 <template>
-  <div id="canvas" >
+<div class="secr">
+      <div id="canvas" >
     <template v-for="(item,index) of components"  :key="index" >
           <component :is="item.component" :ref="(el) => setrefsFun(el, index)" ></component>
       </template>
@@ -9,6 +10,8 @@
     </template> -->
     <!-- <Pipe1 v-if="components.length!==0" :option="components[0]" ref="pieDom"></Pipe1> -->
   </div>
+</div>
+
 </template>
 
 <script setup>
@@ -43,7 +46,7 @@ const setrefsFun = (el, item) => {
 
 watch(()=>refBtns,
 (curr,prev)=>{
-  //出事化
+  //初始化
   if(onlyCreate){
     for(let key in curr){
       curr[key].optionSet(store.state.allOption[key])
@@ -116,12 +119,21 @@ watch(()=>store.state.componentInstance,
 // )
 </script>
 <style lang="scss" scoped>
-#canvas {
+.secr{
   background-color: #fff;
+  overflow-x: scroll;
+  #canvas {
+    background-color: #fff;
+    width: 1920px;
+    height: 1080PX;
   position: relative;
   .pipe {
     width: 100%;
     height: 100%;
   }
 }
+}
+
+
+
 </style>

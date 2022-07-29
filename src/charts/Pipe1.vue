@@ -1,5 +1,5 @@
 <template>
-  <drag-box  ref="dragbox" @resize="resize" :option="dragOption">
+  <drag-box ref="dragbox" @resize="resize" :option="dragOption">
     <div ref="pipe" class="pipe"></div>
   </drag-box>
 </template>
@@ -13,28 +13,11 @@ import { defineProps, watch } from "vue";
 import { useStore } from "vuex";
 
 //利用drag box组件标识是哪一个组件
-//利用统一的配置，来更改option
-// const props = defineProps({
-//   option: Object,
-// });
 let myChart = ref(null);
 const pipe = ref(null);
-/**
- * interface option{
- *  id:string,
- * height:number,
- * left:number,
- * top:number,
- * width:number
- * }
- */
 let dragOption = ref(null);
 
-
-const dragbox=ref(null);
-
-// let a=JSON.stringify(data);
-// let setOption = props.option["setting"];
+const dragbox = ref(null);
 
 let data = {
   id: {},
@@ -49,40 +32,33 @@ let data = {
         { value: 580, name: "Email" },
         { value: 484, name: "Union Ads" },
         { value: 300, name: "Video Ads" },
-      ]
+      ],
     },
   },
 };
-const optionSet=(opt)=>{
-  console.log(opt,"option");
-  // if(!dragOption.value){ 
-    const {id}=opt;
-    dragOption.value={id:id}; 
-  // }else{
-    data.setting.style={...data.setting.style,...opt.setting.style}
-    data.setting.data=opt.setting.data?opt.setting.data:data.setting.data
-    setBar(data);
-  // }
-
-  // store.commit("setOption",opt);
-}
+const optionSet = (opt) => {
+  console.log(opt, "option");
+  const { id } = opt;
+  dragOption.value = { id: id };
+  data.setting.style = { ...data.setting.style, ...opt.setting.style };
+  data.setting.data = opt.setting.data ? opt.setting.data : data.setting.data;
+  setBar(data);
+};
 
 defineExpose({
-  optionSet
-})
-
+  optionSet,
+});
 
 onMounted(() => {
   data.id = pipe.value;
   setBar(data);
-
 });
 const resize = (value) => {
   myChart.resize();
 };
 
 const setBar = (data) => {
-  console.log(data.setting.style.title,"title")
+  console.log(data.setting.style.title, "title");
   let option = {
     title: {
       text: data.setting.style.title,
