@@ -5,7 +5,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "update-html": "node ./src/save-as-html/deal-data/dealData.js"
+    "update-html": "node ./src/save-as-html/deal-data/dealData.js",
+    "c":"node ./src/tools/createComponent.js"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",

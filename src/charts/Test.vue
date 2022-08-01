@@ -1,15 +1,4 @@
-const fs = require("fs");
-const path=require("path");
-const basePath=path.resolve(__dirname,'../charts');
-const inputDirName=process.argv[2];
-console.error(basePath);
-
-if(!inputDirName){
-    console.error("文件名不能为空！")
-    process.exit(0);
-}
-
-let componentStr=`<template>
+<template>
 <drag-box ref="dragbox" @resize="resize" :option="dragOption">
   <div ref="chart" class="chart"></div>
 </drag-box>
@@ -79,25 +68,3 @@ position: relative;
 }
 }
 </style>
-`
-// isFileExisted(basePath+"/"+inputDirName+".vue",componentStr);
-
-fs.writeFile(basePath+"\\"+toFirstUpper(inputDirName)+".vue", componentStr, (err) => {
-  if (err) {
-    return console.log(err);
-  }else{
-    console.log('\x1B[32m',"crrated success! \n" + basePath+"\\"+toFirstUpper(inputDirName)+".vue");
-    console.log('\x1B[37m')
-  }
-});
-
-function toFirstUpper(str){
-  if(str){
-    let first=str.slice(0,1);
-    let end=str.slice(1);
-    return first.toUpperCase()+end;
-  }else{  
-    return null;
-  }
-}
-
